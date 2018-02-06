@@ -5,7 +5,7 @@ import GamesPrice from "./GamesPrice";
 const GameCard = ({game}) => (
   <div className="ui card">
     <div className="image">
-      <span className="ui green ribbon label"><GamesPrice price={ game.price }/></span><img src={ game.thumbnail } alt="" />
+      <span className="ui green ribbon label"><GamesPrice price={ game.price }/>{ game.price < 3000 && "!" }</span><img src={ game.thumbnail } alt="" />
     </div>
     <div className="content">
       <a href="#" className="header">
