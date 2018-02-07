@@ -38,9 +38,11 @@ const games = [
 
 
 class App extends React.Component {
+
   state = {
     games: []
   };
+
 
   componentDidMount() {
     this.setState({
@@ -48,10 +50,27 @@ class App extends React.Component {
     })
   }
 
+  // Logic for toggling star icon, pass me down function
+  toggleFeatured = gameId => {
+    // find matching gameID in state
+    // change featured to !boolean
+    // save output to newGames & setState game: newGames
+    const newGames = this.state.games.map(game => {
+      if (game._id === gameId) return {
+          ...game,
+          featured: !game.featured
+        };
+      return game;
+    })
+    this.setState({
+      games: newGames
+    });
+  }
+
   render() {
     return (
       <div className="ui constainer">
-        <GamesList games={ this.state.games } />
+        <GamesList games={ this.state.games } toggleFeatured={ this.toggleFeatured } />
       </div>
     )
   }
