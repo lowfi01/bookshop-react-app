@@ -38,17 +38,20 @@ const games = [
 
 
 class App extends React.Component {
-
   state = {
     games: []
   };
 
-
   componentDidMount() {
     this.setState({
-      games: _orderBy(games, ["featured", 'name'], ["desc", "asc"])
+      games: this.sortGames(games)
     })
   }
+
+  sortGames(games) {
+    return _orderBy(games, ["featured", 'name'], ["desc", "asc"]);
+  }
+
 
   // Logic for toggling star icon, pass me down function
   toggleFeatured = gameId => {
@@ -63,7 +66,7 @@ class App extends React.Component {
       return game;
     })
     this.setState({
-      games: newGames
+      games: this.sortGames(newGames)
     });
   }
 
