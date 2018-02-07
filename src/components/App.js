@@ -33,10 +33,20 @@ const games = [
 
 
 class App extends React.Component {
+  state = {
+    games: []
+  };
+
+  componentDidMount() {
+    this.setState({
+      games
+    })
+  }
+
   render() {
     return (
       <div className="ui constainer">
-        <GamesList games={ games } />
+        <GamesList games={ this.state.games } />
       </div>
     )
   }
