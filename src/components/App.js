@@ -32,10 +32,15 @@ const games = [
 ];
 
 
-const App = (props) => (
-  <div className="ui constainer">
-    <GamesList games={ games } />
-  </div>
-)
+class App extends React.Component {
+  render() {
+    return (
+      <div className="ui constainer">
+        <GamesList games={ games } />
+      </div>
+    )
+  }
+}
+
 
 export default App;
