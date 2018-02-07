@@ -52,23 +52,35 @@ class App extends React.Component {
     return _orderBy(games, ["featured", 'name'], ["desc", "asc"]);
   }
 
-
   // Logic for toggling star icon, pass me down function
-  toggleFeatured = gameId => {
-    // find matching gameID in state
-    // change featured to !boolean
-    // save output to newGames & setState game: newGames
-    const newGames = this.state.games.map(game => {
-      if (game._id === gameId) return {
+  toggleFeatured = gameId => this.setState({
+    // we are using implicit return
+    // just set state of game & then use ternary operator.
+    games: this.sortGames(
+      this.state.games.map(
+        game => game._id === gameId ? {
           ...game,
           featured: !game.featured
-        };
-      return game;
-    })
-    this.setState({
-      games: this.sortGames(newGames)
-    });
-  }
+        } : game)
+    )
+  })
+
+  // // Logic for toggling star icon, pass me down function
+  // toggleFeatured = gameId => {
+  //   // find matching gameID in state
+  //   // change featured to !boolean
+  //   // save output to newGames & setState game: newGames
+  //   const newGames = this.state.games.map(game => {
+  //     if (game._id === gameId) return {
+  //         ...game,
+  //         featured: !game.featured
+  //       };
+  //     return game;
+  //   })
+  //   this.setState({
+  //     games: this.sortGames(newGames)
+  //   });
+  // }
 
   render() {
     return (
