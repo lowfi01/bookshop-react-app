@@ -7,7 +7,7 @@ import Featured from "./Featured";
 const GameCard = ({ game, toggleFeatured, toggleDescription }) => (
   <div className="ui card">
     {game.descriptionToggle ? (
-      <div className="content description">
+      <div className="content">
         <p>{game.description}</p>
       </div>
     ) : (
