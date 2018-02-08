@@ -12,7 +12,10 @@ const games = [
       "https://cf.geekdo-images.com/BMUcxCZM_AikQ7uXeuDg43RZIWo=/fit-in/246x300/pic2840020.jpg",
     price: 3277,
     players: "2-4",
-    duration: 60
+    duration: 60,
+    descriptionToggle: false,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam suscipit lobortis augue sed mattis. Nullam elementum lacus nec quam faucibus, non elementum neque sagittis. Duis risus justo, dignissim finibus placerat eu, gravida vitae velit."
   },
   {
     _id: 2,
@@ -22,7 +25,10 @@ const games = [
       "https://cf.geekdo-images.com/o3D15fBxzTt3k2IFZ2u2Xr7Wlyk=/fit-in/246x300/pic2055255.jpg",
     price: 5199,
     players: "2-4",
-    duration: 80
+    duration: 80,
+    descriptionToggle: false,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam suscipit lobortis augue sed mattis. Nullam elementum lacus nec quam faucibus, non elementum neque sagittis. Duis risus justo, dignissim finibus placerat eu, gravida vitae velit."
   },
   {
     _id: 3,
@@ -32,7 +38,10 @@ const games = [
       "https://cf.geekdo-images.com/Vi3pvbq9sLk_OHzxio8lzjB_77k=/fit-in/246x300/pic1473629.jpg",
     price: 2999,
     players: "2-5",
-    duration: 45
+    duration: 45,
+    descriptionToggle: false,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam suscipit lobortis augue sed mattis. Nullam elementum lacus nec quam faucibus, non elementum neque sagittis. Duis risus justo, dignissim finibus placerat eu, gravida vitae velit."
   }
 ];
 
@@ -47,9 +56,24 @@ class App extends React.Component {
     });
   }
 
+  componentDidUpdate(x) {
+    console.log(x);
+    console.log(this.state);
+  }
+
   sortGames(games) {
     return _orderBy(games, ["featured", "name"], ["desc", "asc"]);
   }
+
+  toggleDescription = gameId =>
+    this.setState({
+      games: this.state.games.map(
+        game =>
+          game._id === gameId
+            ? { ...game, descriptionToggle: !game.descriptionToggle }
+            : game
+      )
+    });
 
   // Logic for toggling star icon, pass me down function
   toggleFeatured = gameId =>
@@ -88,6 +112,7 @@ class App extends React.Component {
         <GamesList
           games={this.state.games}
           toggleFeatured={this.toggleFeatured}
+          toggleDescription={this.toggleDescription}
         />
       </div>
     );
