@@ -15,6 +15,7 @@ class GameForm extends Component {
     console.log(this.state);
   };
 
+  // // Universal Method for handling types 
   // handelChange = e =>
   //   this.setState({
   //     [e.target.name]:
@@ -23,6 +24,7 @@ class GameForm extends Component {
   //         : e.target.value
   //   });
 
+  // Easier to read method for handling types 
   handelStringChange = e => this.setState({ [e.target.name]: e.target.value });
   handelNumberChange = e =>
     this.setState({ [e.target.name]: parseInt(e.target.value, 10) });
