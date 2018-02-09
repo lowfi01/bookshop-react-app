@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 
 class GameForm extends Component {
   state = {
-    name: ""
+    name: "",
+    description: ""
   };
 
   handleSubmit = e => {
@@ -11,7 +12,10 @@ class GameForm extends Component {
     console.log(this.state);
   };
 
-  handleNameChange = e => this.setState({ name: e.target.value });
+  handelChange = e => this.setState({ [e.target.name]: e.target.value });
+
+  // handleNameChange = e => this.setState({ name: e.target.value });
+  // handleDescriptionChange = e => this.setState({ description: e.target.value });
 
   render() {
     return (
@@ -21,9 +25,22 @@ class GameForm extends Component {
           <input
             type="text"
             id="name"
+            name="name"
             placeholder="Full game title"
             value={this.state.name}
-            onChange={this.handleNameChange}
+            onChange={this.handelChange}
+          />
+        </div>
+
+        <div className="field">
+          <label htmlFor="description" /> Game Description
+          <textArea
+            type="text"
+            id="description"
+            name="description"
+            placeholder="Full game title"
+            value={this.state.description}
+            onChange={this.handelChange}
           />
         </div>
         <button className="ui button" type="submit">
