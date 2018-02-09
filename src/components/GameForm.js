@@ -1,13 +1,21 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
+const tags = [
+  { _id: 1, name: "dice" },
+  { _id: 2, name: "economic" },
+  { _id: 3, name: "family" }
+];
+
 class GameForm extends Component {
   state = {
     name: "",
     description: "",
     price: 0,
     duration: 0,
-    players: ""
+    players: "",
+    featured: false,
+    tags: []
   };
 
   handleSubmit = e => {
@@ -15,7 +23,7 @@ class GameForm extends Component {
     console.log(this.state);
   };
 
-  // // Universal Method for handling types 
+  // // Universal Method for handling types
   // handelChange = e =>
   //   this.setState({
   //     [e.target.name]:
@@ -24,11 +32,18 @@ class GameForm extends Component {
   //         : e.target.value
   //   });
 
-  // Easier to read method for handling types 
+  // Easier to read method for handling types
   handelStringChange = e => this.setState({ [e.target.name]: e.target.value });
   handelNumberChange = e =>
     this.setState({ [e.target.name]: parseInt(e.target.value, 10) });
+  handelCheckboxChange = e =>
+    this.setState({ [e.target.name]: e.target.checked });
+  toggleTag = tag => 
+    this.state.tags.includes(tag._id)
+      ? this.setState({  tags: this.state.tags.filter(id => id !== tag._id)}) 
+      : this.setState({ tags: [...this.state.tags, tag._id]});
 
+  // // Older method that just isn't nice to read or use
   // handleNameChange = e => this.setState({ name: e.target.value });
   // handleDescriptionChange = e => this.setState({ description: e.target.value });
 
@@ -90,8 +105,34 @@ class GameForm extends Component {
             />
           </div>
         </div>
+
+        <div className="inline field">
+          <input
+            type="checkbox"
+            name="featured"
+            id="featured"
+            checked={this.state.featured}
+            onChange={this.handelCheckboxChange}
+          />
+          <label htmlFor="featured">Featured?</label>
+        </div>
+
+        <div className="field">
+          <label>Tags</label>
+          {tags.map(tag => (
+            <div key={tag._id} className="inline field">
+              <input
+                id={"tag._id"}
+                type="checkbox"
+                checked={this.state.tags.includes(tag._id)}
+                onChange={() => this.toggleTag(tag)}
+              />
+              <label htmlFor={`tag-${tag._id}`}>{tag.name}</label>
+            </div>
+          ))}
+        </div>
         <button className="ui button" type="submit">
-          Submit
+          Create
         </button>
       </form>
     );
