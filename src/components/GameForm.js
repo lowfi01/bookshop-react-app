@@ -22,7 +22,8 @@ class GameForm extends Component {
     players: "",
     featured: false,
     genre: 1,
-    tags: []
+    tags: [],
+    publishers: 0
   };
 
   handleSubmit = e => {
@@ -49,7 +50,7 @@ class GameForm extends Component {
     this.state.tags.includes(tag._id)
       ? this.setState({ tags: this.state.tags.filter(id => id !== tag._id) })
       : this.setState({ tags: [...this.state.tags, tag._id] });
-  handleGenreChange = genre => this.setState({ genre: genre._id})
+  handleGenreChange = genre => this.setState({ genre: genre._id });
 
   // // Older method that just isn't nice to read or use
   // handleNameChange = e => this.setState({ name: e.target.value });
@@ -76,7 +77,7 @@ class GameForm extends Component {
             type="text"
             id="description"
             name="description"
-            placeholder="Full game title"
+            placeholder="Game description"
             value={this.state.description}
             onChange={this.handelStringChange}
           />
@@ -145,7 +146,7 @@ class GameForm extends Component {
           {genres.map(genre => (
             <div key={genre._id} className="inline field">
               <input
-                type="checkbox"
+                type="radio"
                 id={`genre-${genre._id}`}
                 checked={this.state.genre === genre._id}
                 onChange={() => this.handleGenreChange(genre)}
@@ -154,6 +155,24 @@ class GameForm extends Component {
             </div>
           ))}
         </div>
+
+        <div className="field">
+          <label>Publisher</label>
+          <select
+            name="publisher"
+            id="publisher"
+            value={this.state.publisher}
+            onChange={this.handelNumberChange}
+          >
+            <option value="0">Choose Publisher</option>
+            {this.props.publishers.map(publisher => (
+              <option key={publisher._id} value={publisher._id}>
+                {publisher.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <button className="ui button" type="submit">
           Create
         </button>
@@ -162,6 +181,17 @@ class GameForm extends Component {
   }
 }
 
-GameForm.propTypes = {};
+GameForm.propTypes = {
+  publishers: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired
+    })
+  ).isRequired
+};
+
+GameForm.defaultProps = {
+  publishers: []
+};
 
 export default GameForm;
