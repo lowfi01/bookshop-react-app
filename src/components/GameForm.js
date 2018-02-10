@@ -1,18 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-const tags = [
-  { _id: 1, name: "dice" },
-  { _id: 2, name: "economic" },
-  { _id: 3, name: "family" }
-];
-
-const genres = [
-  { _id: 1, name: "abstract" },
-  { _id: 2, name: "euro" },
-  { _id: 3, name: "ameritrash" }
-];
-
 class GameForm extends Component {
   state = {
     name: "",
@@ -21,9 +9,8 @@ class GameForm extends Component {
     duration: 0,
     players: "",
     featured: false,
-    genre: 1,
-    tags: [],
-    publishers: 0
+    publishers: 0,
+    thumbnail: ""
   };
 
   handleSubmit = e => {
@@ -31,54 +18,67 @@ class GameForm extends Component {
     console.log(this.state);
   };
 
-  // // Universal Method for handling types
-  // handelChange = e =>
-  //   this.setState({
-  //     [e.target.name]:
-  //       e.target.type === "number"
-  //         ? parseInt(e.target.value, 10)
-  //         : e.target.value
-  //   });
-
   // Easier to read method for handling types
   handelStringChange = e => this.setState({ [e.target.name]: e.target.value });
   handelNumberChange = e =>
     this.setState({ [e.target.name]: parseInt(e.target.value, 10) });
   handelCheckboxChange = e =>
     this.setState({ [e.target.name]: e.target.checked });
-  toggleTag = tag =>
-    this.state.tags.includes(tag._id)
-      ? this.setState({ tags: this.state.tags.filter(id => id !== tag._id) })
-      : this.setState({ tags: [...this.state.tags, tag._id] });
-  handleGenreChange = genre => this.setState({ genre: genre._id });
-
-  // // Older method that just isn't nice to read or use
-  // handleNameChange = e => this.setState({ name: e.target.value });
-  // handleDescriptionChange = e => this.setState({ description: e.target.value });
 
   render() {
     return (
       <form className="ui form" onSubmit={this.handleSubmit}>
-        <div className="field">
-          <label htmlFor="name" /> Game Title
-          <input
-            type="text"
-            id="name"
-            name="name"
-            placeholder="Full game title"
-            value={this.state.name}
-            onChange={this.handelStringChange}
-          />
+        <div className="ui grid">
+          <div className="twelve wide column">
+            <div className="field">
+              <label htmlFor="name" /> Game Title
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Full game title"
+                value={this.state.name}
+                onChange={this.handelStringChange}
+              />
+            </div>
+
+            <div className="field">
+              <label htmlFor="description" /> Game Description
+              <textArea
+                type="text"
+                id="description"
+                name="description"
+                placeholder="Game description"
+                value={this.state.description}
+                onChange={this.handelStringChange}
+              />
+            </div>
+          </div>
+          <div className="four wide column">
+            {this.state.thumbnail ? (
+              <img
+                src={this.state.thumbnail}
+                alt="Thumb Nail"
+                className="ui image"
+              />
+            ) : (
+              <img
+                src="http://via.placeholder.com/250x250"
+                alt="Thumb Nail"
+                className="ui image"
+              />
+            )}
+          </div>
         </div>
 
         <div className="field">
-          <label htmlFor="description" /> Game Description
-          <textArea
+          <label htmlFor="thumbnail" /> Thumbnail
+          <input
             type="text"
-            id="description"
-            name="description"
-            placeholder="Game description"
-            value={this.state.description}
+            id="thumbnail"
+            name="thumbnail"
+            placeholder="Image URL"
+            value={this.state.thumbnail}
             onChange={this.handelStringChange}
           />
         </div>
@@ -124,36 +124,6 @@ class GameForm extends Component {
             onChange={this.handelCheckboxChange}
           />
           <label htmlFor="featured">Featured?</label>
-        </div>
-
-        <div className="field">
-          <label>Tags</label>
-          {tags.map(tag => (
-            <div key={tag._id} className="inline field">
-              <input
-                id={`tag-${tag._id}`}
-                type="checkbox"
-                checked={this.state.tags.includes(tag._id)}
-                onChange={() => this.toggleTag(tag)}
-              />
-              <label htmlFor={`tag-${tag._id}`}>{tag.name}</label>
-            </div>
-          ))}
-        </div>
-
-        <div className="field">
-          <label>Genres</label>
-          {genres.map(genre => (
-            <div key={genre._id} className="inline field">
-              <input
-                type="radio"
-                id={`genre-${genre._id}`}
-                checked={this.state.genre === genre._id}
-                onChange={() => this.handleGenreChange(genre)}
-              />
-              <label htmlFor={`genre-${genre._id}`}>{genre.name}</label>
-            </div>
-          ))}
         </div>
 
         <div className="field">
