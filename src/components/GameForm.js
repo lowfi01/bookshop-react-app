@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import ReactImageFallBack from "react-image-fallback";
 
 class GameForm extends Component {
   state = {
@@ -55,19 +56,12 @@ class GameForm extends Component {
             </div>
           </div>
           <div className="four wide column">
-            {this.state.thumbnail ? (
-              <img
-                src={this.state.thumbnail}
-                alt="Thumb Nail"
-                className="ui image"
-              />
-            ) : (
-              <img
-                src="http://via.placeholder.com/250x250"
-                alt="Thumb Nail"
-                className="ui image"
-              />
-            )}
+            <ReactImageFallBack
+              src={this.state.thumbnail}
+              fallbackImage="http://via.placeholder.com/250x250"
+              alt="Thumbnail"
+              className="ui image"
+            />
           </div>
         </div>
 
