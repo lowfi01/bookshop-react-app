@@ -137,9 +137,15 @@ class GameForm extends Component {
           </select>
         </div>
 
-        <button className="ui button" type="submit">
-          Create
-        </button>
+        <div className="ui fluid buttons">
+          <button className="ui primary button" type="submit">
+            Create
+          </button>
+          <div className="or" />
+          <a className="ui button" onClick={this.props.cancel}>
+            Cancel
+          </a>
+        </div>
       </form>
     );
   }
@@ -151,7 +157,8 @@ GameForm.propTypes = {
       _id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired
     })
-  ).isRequired
+  ).isRequired,
+  cancel: PropTypes.func.isRequired
 };
 
 GameForm.defaultProps = {
