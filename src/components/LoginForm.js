@@ -39,7 +39,7 @@ class LoginForm extends Component {
                   type="text"
                   id="password"
                   name="password"
-                  placeholder="UserEmail@example.com"
+                  placeholder="*****************"
                   value={this.state.password}
                   onChange={this.handleStringChange}
                 />
