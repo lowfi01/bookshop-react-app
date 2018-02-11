@@ -110,22 +110,31 @@ class App extends React.Component {
     });
 
   //Logic to show game form
-  showGameForm = () => this.setState({ showGameForm: true });
+  showGameForm = () =>
+    this.setState({ showGameForm: !this.state.showGameForm });
   hideGameForm = () => this.setState({ showGameForm: false });
 
   render() {
+    const numberOfColumns = this.state.showGameForm ? "ten" : "sixteen";
     return (
       <div className="ui container">
         <TopNavigation showGameForm={this.showGameForm} />
+
         {this.state.showGameForm && (
-          <GameForm publishers={publishers} cancel={this.hideGameForm} />
+          <div className="six wide column">
+            <GameForm publishers={publishers} cancel={this.hideGameForm} />
+          </div>
         )}
         <br />
-        <GamesList
-          games={this.state.games}
-          toggleFeatured={this.toggleFeatured}
-          toggleDescription={this.toggleDescription}
-        />
+        <div className="ui stackable grid">
+          <div className={`${numberOfColumns} wide column`}>
+            <GamesList
+              games={this.state.games}
+              toggleFeatured={this.toggleFeatured}
+              toggleDescription={this.toggleDescription}
+            />
+          </div>
+        </div>
       </div>
     );
   }
