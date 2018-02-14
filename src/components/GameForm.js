@@ -16,14 +16,31 @@ class GameForm extends Component {
       thumbnail:
         "https://cf.geekdo-images.com/BMUcxCZM_AikQ7uXeuDg43RZIWo=/fit-in/246x300/pic2840020.jpg"
     },
-    errors: {
-      name: "This field can't be blank"
-    }
+    errors: {}
   };
+
+  validate(data) {
+    const errors = {};
+
+    if (!data.name) errors.name = "This field can't be blank";
+    if (!data.players) errors.players = "This field can't be blank";
+    if (!data.description) errors.description = "This field can't be blank";
+    if (!data.thumbnail) errors.thumbnail = "This field can't be blank";
+    if (!data.publisher) errors.publisher = "This field can't be blank";
+    if (data.duration <= 0) errors.duration = "To Short, isn't it?";
+    if (data.price <= 0) errors.price = "To cheap don't you think?";
+
+    return errors;
+  }
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log(this.state.data);
+    const errors = this.validate(this.state.data);
+    this.setState({ errors });
+
+    if (Object.keys(errors).length === 0) {
+      return console.log(this.state.data);
+    }
   };
 
   // Easier to read method for handling types
@@ -121,7 +138,7 @@ class GameForm extends Component {
             <FormInlineMessage content={errors.duration} type="error" />
           </div>
           <div className={errors.players ? "field error" : "field"}>
-            <label htmlFor="players" /> Players
+            <label htmlFor="players" /> Players ( eg 2-3 )
             <input
               type="text"
               id="players"
