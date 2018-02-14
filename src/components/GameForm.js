@@ -3,20 +3,22 @@ import PropTypes from "prop-types";
 import ReactImageFallBack from "react-image-fallback";
 import FormInlineMessage from "./FormInlineMessage";
 
+const initialData = {
+  _id: null,
+  name: "",
+  description: "",
+  price: 0,
+  duration: 0,
+  players: "",
+  featured: false,
+  publishers: 0,
+  thumbnail:
+    "https://cf.geekdo-images.com/BMUcxCZM_AikQ7uXeuDg43RZIWo=/fit-in/246x300/pic2840020.jpg"
+};
+
 class GameForm extends Component {
   state = {
-    data: {
-      _id: null,
-      name: "",
-      description: "",
-      price: 0,
-      duration: 0,
-      players: "",
-      featured: false,
-      publishers: 0,
-      thumbnail:
-        "https://cf.geekdo-images.com/BMUcxCZM_AikQ7uXeuDg43RZIWo=/fit-in/246x300/pic2840020.jpg"
-    },
+    data: initialData,
     errors: {}
   };
 
@@ -24,6 +26,16 @@ class GameForm extends Component {
     // Check if edit button has been selected & selectedGame object has been passed with data
     if (this.props.game._id) {
       this.setState({ data: this.props.game });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.game._id && nextProps.game._id !== this.state.data._id) {
+      this.setState({ data: nextProps.game });
+    }
+
+    if (!nextProps.game._id) {
+      this.setState({ data: initialData });
     }
   }
 
@@ -211,18 +223,19 @@ GameForm.propTypes = {
   cancel: PropTypes.func.isRequired,
   submit: PropTypes.func.isRequired,
   game: PropTypes.shape({
-    _id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    thumbnail: PropTypes.string.isRequired,
-    players: PropTypes.string.isRequired,
-    duration: PropTypes.number.isRequired,
-    featured: PropTypes.bool.isRequired
+    _id: PropTypes.number,
+    name: PropTypes.string,
+    price: PropTypes.number,
+    thumbnail: PropTypes.string,
+    players: PropTypes.string,
+    duration: PropTypes.number,
+    featured: PropTypes.bool
   })
 };
 
 GameForm.defaultProps = {
-  publishers: []
+  publishers: [],
+  game: initialData
 };
 
 export default GameForm;

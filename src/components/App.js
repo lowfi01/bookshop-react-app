@@ -113,11 +113,10 @@ class App extends React.Component {
     });
 
   //Logic to show & hide game form on add game toggle from Nav
-  showGameForm = () =>
-    this.setState({ showGameForm: !this.state.showGameForm });
+  showGameForm = () => this.setState({ showGameForm: true, selectedGame: {} });
 
   //Logic to hide game when pushing cancel button
-  hideGameForm = () => this.setState({ showGameForm: false });
+  hideGameForm = () => this.setState({ showGameForm: false, selectedGame: {} });
 
   //Logic for selected game to edit
   selectGameForEditing = game =>

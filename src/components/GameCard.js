@@ -40,10 +40,10 @@ const GameCard = ({ game, toggleFeatured, toggleDescription, editGame }) => (
     <div className="extra content">
       <div className="ui two buttons">
         <a className="ui green basic button" onClick={() => editGame(game)}>
-          <i className="ui icon edit" /> Edit
+          <i className="ui icon edit" />
         </a>
         <a className="ui red basic button">
-          <i className="ui icon trash" /> Delete
+          <i className="ui icon trash" />
         </a>
       </div>
     </div>
