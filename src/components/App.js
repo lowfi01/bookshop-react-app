@@ -122,6 +122,19 @@ class App extends React.Component {
   selectGameForEditing = game =>
     this.setState({ selectedGame: game, showGameForm: true });
 
+  // Logic for if game object is a new game or request for update
+  // Note - we have game._id: null as value as such if value is null, then it's a new game
+  saveGame = game => (game._id ? this.updateGame(game) : this.addGame(game));
+
+  // Logic for Updating game
+  updateGame = game =>
+    this.setState({
+      games: this.sortGames(
+        this.state.games.map(item => (item._id === game._id ? game : item))
+      ),
+      showGameForm: false
+    });
+
   //Logic for adding a new game on create game button
   addGame = game =>
     this.setState({
@@ -147,7 +160,7 @@ class App extends React.Component {
               <GameForm
                 publishers={publishers}
                 cancel={this.hideGameForm}
-                submit={this.addGame}
+                submit={this.saveGame}
                 game={this.state.selectedGame}
               />
             </div>

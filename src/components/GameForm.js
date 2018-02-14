@@ -186,6 +186,7 @@ class GameForm extends Component {
           <select
             name="publisher"
             id="publisher"
+            type="checkbox"
             value={data.publisher}
             onChange={this.handelNumberChange}
           >
