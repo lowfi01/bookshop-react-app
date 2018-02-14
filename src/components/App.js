@@ -66,7 +66,8 @@ const games = [
 class App extends React.Component {
   state = {
     games: [],
-    showGameForm: false
+    showGameForm: false,
+    selectedGame: {}
   };
 
   componentDidMount() {
@@ -111,16 +112,18 @@ class App extends React.Component {
       )
     });
 
-  //Logic to show game form
+  //Logic to show & hide game form on add game toggle from Nav
   showGameForm = () =>
-    this.setState({
-      showGameForm: !this.state.showGameForm
-    });
-  hideGameForm = () =>
-    this.setState({
-      showGameForm: false
-    });
+    this.setState({ showGameForm: !this.state.showGameForm });
 
+  //Logic to hide game when pushing cancel button
+  hideGameForm = () => this.setState({ showGameForm: false });
+
+  //Logic for selected game to edit
+  selectGameForEditing = game =>
+    this.setState({ selectedGame: game, showGameForm: true });
+
+  //Logic for adding a new game on create game button
   addGame = game =>
     this.setState({
       games: this.sortGames([
@@ -155,6 +158,7 @@ class App extends React.Component {
               games={this.state.games}
               toggleFeatured={this.toggleFeatured}
               toggleDescription={this.toggleDescription}
+              editGame={this.selectGameForEditing}
             />
           </div>
         </div>

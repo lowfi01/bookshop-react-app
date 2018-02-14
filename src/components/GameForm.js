@@ -201,7 +201,7 @@ GameForm.propTypes = {
     })
   ).isRequired,
   cancel: PropTypes.func.isRequired,
-  submit: PropTypes.func.isRequired,
+  submit: PropTypes.func.isRequired
 };
 
 GameForm.defaultProps = {
