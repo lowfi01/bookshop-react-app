@@ -149,6 +149,7 @@ class App extends React.Component {
                 publishers={publishers}
                 cancel={this.hideGameForm}
                 submit={this.addGame}
+                game={this.state.selectedGame}
               />
             </div>
           )}

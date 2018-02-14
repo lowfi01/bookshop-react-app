@@ -6,6 +6,7 @@ import FormInlineMessage from "./FormInlineMessage";
 class GameForm extends Component {
   state = {
     data: {
+      _id: null,
       name: "",
       description: "",
       price: 0,
@@ -18,6 +19,13 @@ class GameForm extends Component {
     },
     errors: {}
   };
+
+  componentDidMount() {
+    // Check if edit button has been selected & selectedGame object has been passed with data
+    if (this.props.game._id) {
+      this.setState({ data: this.props.game });
+    }
+  }
 
   validate(data) {
     const errors = {};
@@ -201,7 +209,16 @@ GameForm.propTypes = {
     })
   ).isRequired,
   cancel: PropTypes.func.isRequired,
-  submit: PropTypes.func.isRequired
+  submit: PropTypes.func.isRequired,
+  game: PropTypes.shape({
+    _id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    thumbnail: PropTypes.string.isRequired,
+    players: PropTypes.string.isRequired,
+    duration: PropTypes.number.isRequired,
+    featured: PropTypes.bool.isRequired
+  })
 };
 
 GameForm.defaultProps = {
