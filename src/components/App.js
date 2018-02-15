@@ -6,6 +6,7 @@ import GameForm from "./GameForm";
 import TopNavigation from "./TopNavigation";
 import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm";
+import GamePublisher from "./GamePublisher";
 
 const publishers = [
   {
@@ -143,6 +144,11 @@ class App extends React.Component {
     });
   };
 
+  componentWillUpdate(nextProps) {
+    console.log("Next Props", nextProps);
+    console.log(this.state);
+  }
+
   //Logic for adding a new game on create game button
   addGame = game =>
     this.setState({
@@ -150,11 +156,13 @@ class App extends React.Component {
         ...this.state.games,
         {
           ...game,
-          _id: this.state.games.length + 1
+          _id: this.gameId(this.state.games.length + 1)
         }
       ]),
       showGameForm: false
     });
+
+  gameId = id => this.state.games.map(game => (id === game._id ? id + 1 : id));
 
   render() {
     const numberOfColumns = this.state.showGameForm ? "ten" : "sixteen";
@@ -183,6 +191,10 @@ class App extends React.Component {
               deleteGame={this.deleteGame}
             />
           </div>
+
+          {/* <div className="six wide column">
+            <GamePublisher />
+          </div> */}
         </div>
         {/* <LoginForm />
         <br />

@@ -9,6 +9,7 @@ const TopNavigation = ({ showGameForm }) => (
     <a onClick={showGameForm} className="item">
       <i className="icon plus" /> Add New Game
     </a>
+    <a className="item"> Manage Publishers </a>
   </div>
 );
 

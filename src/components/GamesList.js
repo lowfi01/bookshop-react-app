@@ -4,16 +4,32 @@ import PropTypes from "prop-types";
 import GameCard from "./GameCard";
 import GamesMessage from "./GamesMessage";
 
-const GamesList = ({games, toggleFeatured, toggleDescription, editGame, deleteGame}) => (
+const GamesList = ({
+  games,
+  toggleFeatured,
+  toggleDescription,
+  editGame,
+  deleteGame
+}) => (
   <div className="ui four cards">
-    { games.length === 0 ? (
-      <GamesMessage type={ undefined } content={ "You should add content, don't you think" } header={ "There are no games in your store" } />
-      ) : (
+    {games.length === 0 ? (
+      <GamesMessage
+        type={undefined}
+        content={"You should add content, don't you think"}
+        header={"There are no games in your store"}
+      />
+    ) : (
       games.map(game => (
-        <GameCard game={ game } key={ game._id } toggleFeatured={ toggleFeatured } toggleDescription={ toggleDescription } editGame={ editGame }
-          deleteGame={ deleteGame } />
+        <GameCard
+          game={game}
+          key={game._id}
+          toggleFeatured={toggleFeatured}
+          toggleDescription={toggleDescription}
+          editGame={editGame}
+          deleteGame={deleteGame}
+        />
       ))
-      ) }
+    )}
   </div>
 );
 
