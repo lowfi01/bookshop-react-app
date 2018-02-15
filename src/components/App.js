@@ -135,6 +135,14 @@ class App extends React.Component {
       showGameForm: false
     });
 
+  // Logic for Delete Game
+
+  deleteGame = game => {
+    this.setState({
+      games: this.state.games.filter(oldGames => game._id !== oldGames._id)
+    });
+  };
+
   //Logic for adding a new game on create game button
   addGame = game =>
     this.setState({
@@ -172,6 +180,7 @@ class App extends React.Component {
               toggleFeatured={this.toggleFeatured}
               toggleDescription={this.toggleDescription}
               editGame={this.selectGameForEditing}
+              deleteGame={this.deleteGame}
             />
           </div>
         </div>
