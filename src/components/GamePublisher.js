@@ -3,14 +3,29 @@ import PropTypes from "prop-types";
 import PublisherList from "./PublisherList";
 import FormInlineMessage from "./FormInlineMessage";
 
+const initialData = {
+  _id: null,
+  name: "",
+  website: ""
+};
+
 class GamePublisher extends Component {
   state = {
-    data: {
-      name: "",
-      website: ""
-    },
-    errors: {}
+    data: initialData,
+    errors: {},
+    showForm: false
   };
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    if (nextProps.selectedPublisher._id) {
+      this.setState({ data: nextProps.selectedPublisher });
+    }
+
+    if (!nextProps.selectedPublisher._id) {
+      this.setState({ data: initialData });
+    }
+  }
 
   validate(data) {
     const errors = {};
@@ -28,7 +43,7 @@ class GamePublisher extends Component {
     this.setState({ errors });
 
     if (Object.keys(errors).length === 0) {
-      this.props.addPublisher(this.state.data);
+      this.props.submit(this.state.data);
     }
   };
 
@@ -43,9 +58,11 @@ class GamePublisher extends Component {
 
   render() {
     const { data, errors } = this.state;
+    const { deletePublisher, editPublisher } = this.props;
     return (
       <div className="ui container">
-        <i className="ui icon close" /> Publishers
+        <i className="ui icon close" onClick={this.props.hidePublisher} />{" "}
+        Publishers
         <table className="ui single line table">
           <thead>
             <tr>
@@ -57,7 +74,8 @@ class GamePublisher extends Component {
             <PublisherList
               key={publisher._id}
               publisher={publisher}
-              deletePublisher={this.props.deletePublisher}
+              deletePublisher={deletePublisher}
+              editPublisher={editPublisher}
             />
           ))}
         </table>
@@ -95,7 +113,9 @@ class GamePublisher extends Component {
               Add
             </button>
             <div className="or" />
-            <a className="ui button">Cancel</a>
+            <a className="ui button" onClick={this.props.hidePublisher}>
+              Cancel
+            </a>
           </div>
         </form>
       </div>
@@ -103,7 +123,10 @@ class GamePublisher extends Component {
   }
 }
 
-GamePublisher.propTypes = {};
+GamePublisher.propTypes = {
+  editPublisher: PropTypes.func,
+  deletePublisher: PropTypes.func
+};
 
 GamePublisher.defaultProps = {
   publishers: []

@@ -11,11 +11,13 @@ import GamePublisher from "./GamePublisher";
 const publishers = [
   {
     _id: 1,
-    name: "Days of Wonder"
+    name: "Days of Wonder",
+    website: ""
   },
   {
     _id: 2,
-    name: "Rio Grande Games"
+    name: "Rio Grande Games",
+    website: ""
   }
 ];
 
@@ -70,7 +72,8 @@ class App extends React.Component {
     showGameForm: false,
     showPublisher: false,
     selectedGame: {},
-    publishers: []
+    publishers: [],
+    selectedPublisher: {}
   };
 
   componentDidMount() {
@@ -116,18 +119,6 @@ class App extends React.Component {
       )
     });
 
-  //Logic remove publisher
-  deletePublisher = publisherId => {
-    this.setState({
-      publishers: this.state.publishers.filter(
-        publisher => publisherId !== publisher._id
-      )
-    });
-  };
-  //Logic to show & hide Publisher list
-  showPublisher = e =>
-    this.setState({ showPublisher: !this.state.showPublisher });
-
   //Logic to show & hide game form on add game toggle from Nav
   showGameForm = () => this.setState({ showGameForm: true, selectedGame: {} });
 
@@ -158,11 +149,6 @@ class App extends React.Component {
     });
   };
 
-  componentWillUpdate(nextProps) {
-    console.log("Next Props", nextProps);
-    console.log(this.state);
-  }
-
   //Logic for adding a new game on create game button
   addGame = game =>
     this.setState({
@@ -190,6 +176,38 @@ class App extends React.Component {
       ]
     });
 
+  // Logic for submitting publisher
+  savePublisher = publisher =>
+    publisher._id
+      ? this.updatePublisher(publisher)
+      : this.addPublisher(publisher);
+
+  // Logic Update published
+  updatePublisher = publisher =>
+    this.setState({
+      publishers: this.state.publishers.map(
+        item => (item._id === publisher._id ? publisher : item)
+      )
+    });
+
+  //Logic remove publisher
+  deletePublisher = publisherId => {
+    this.setState({
+      publishers: this.state.publishers.filter(
+        publisher => publisherId !== publisher._id
+      )
+    });
+  };
+
+  selectedPublisherForEditing = publisher =>
+    this.setState({ selectedPublisher: publisher });
+
+  //Logic to show & hide Publisher list
+  showPublisher = e =>
+    this.setState({ showPublisher: !this.state.showPublisher });
+
+  hidePublisher = e => this.setState({ showPublisher: false });
+
   render() {
     const numberOfColumns =
       this.state.showGameForm || this.state.showPublisher ? "ten" : "sixteen";
@@ -204,7 +222,7 @@ class App extends React.Component {
           {this.state.showGameForm && (
             <div className="six wide column">
               <GameForm
-                publishers={publishers}
+                publishers={this.state.publishers}
                 cancel={this.hideGameForm}
                 submit={this.saveGame}
                 game={this.state.selectedGame}
@@ -228,6 +246,10 @@ class App extends React.Component {
                 publishers={this.state.publishers}
                 addPublisher={this.addPublisher}
                 deletePublisher={this.deletePublisher}
+                hidePublisher={this.hidePublisher}
+                editPublisher={this.selectedPublisherForEditing}
+                selectedPublisher={this.state.selectedPublisher}
+                submit={this.savePublisher}
               />
             </div>
           )}
