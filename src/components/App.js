@@ -68,12 +68,15 @@ class App extends React.Component {
   state = {
     games: [],
     showGameForm: false,
-    selectedGame: {}
+    showPublisher: false,
+    selectedGame: {},
+    publishers: []
   };
 
   componentDidMount() {
     this.setState({
-      games: this.sortGames(games)
+      games: this.sortGames(games),
+      publishers: publishers
     });
   }
 
@@ -113,6 +116,18 @@ class App extends React.Component {
       )
     });
 
+  //Logic remove publisher
+  deletePublisher = publisherId => {
+    this.setState({
+      publishers: this.state.publishers.filter(
+        publisher => publisherId !== publisher._id
+      )
+    });
+  };
+  //Logic to show & hide Publisher list
+  showPublisher = e =>
+    this.setState({ showPublisher: !this.state.showPublisher });
+
   //Logic to show & hide game form on add game toggle from Nav
   showGameForm = () => this.setState({ showGameForm: true, selectedGame: {} });
 
@@ -137,7 +152,6 @@ class App extends React.Component {
     });
 
   // Logic for Delete Game
-
   deleteGame = game => {
     this.setState({
       games: this.state.games.filter(oldGames => game._id !== oldGames._id)
@@ -164,11 +178,27 @@ class App extends React.Component {
 
   gameId = id => this.state.games.map(game => (id === game._id ? id + 1 : id));
 
+  //Logic to add new Publisher
+  addPublisher = publisher =>
+    this.setState({
+      publishers: [
+        ...this.state.publishers,
+        {
+          ...publisher,
+          _id: this.state.publishers.length + 1
+        }
+      ]
+    });
+
   render() {
-    const numberOfColumns = this.state.showGameForm ? "ten" : "sixteen";
+    const numberOfColumns =
+      this.state.showGameForm || this.state.showPublisher ? "ten" : "sixteen";
     return (
       <div className="ui container">
-        <TopNavigation showGameForm={this.showGameForm} />
+        <TopNavigation
+          showGameForm={this.showGameForm}
+          showPublisher={this.showPublisher}
+        />
 
         <div className="ui stackable grid">
           {this.state.showGameForm && (
@@ -192,9 +222,15 @@ class App extends React.Component {
             />
           </div>
 
-          {/* <div className="six wide column">
-            <GamePublisher />
-          </div> */}
+          {this.state.showPublisher && (
+            <div className="six wide column">
+              <GamePublisher
+                publishers={this.state.publishers}
+                addPublisher={this.addPublisher}
+                deletePublisher={this.deletePublisher}
+              />
+            </div>
+          )}
         </div>
         {/* <LoginForm />
         <br />
