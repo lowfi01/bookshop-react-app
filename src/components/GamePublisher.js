@@ -16,12 +16,11 @@ class GamePublisher extends Component {
 
   hideForm = e => {
     e.preventDefault();
-    console.log("hello world");
     this.setState({ showForm: false });
   };
 
   render() {
-    const { deletePublisher, editPublisher, hideForm, showForm } = this.props;
+    const { deletePublisher, editPublisher, showForm } = this.props;
     return (
       <div className="ui container">
         <h5>
