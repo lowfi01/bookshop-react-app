@@ -73,7 +73,8 @@ class App extends React.Component {
     showPublisher: false,
     selectedGame: {},
     publishers: [],
-    selectedPublisher: {}
+    selectedPublisher: {},
+    showForm: false
   };
 
   componentDidMount() {
@@ -120,14 +121,25 @@ class App extends React.Component {
     });
 
   //Logic to show & hide game form on add game toggle from Nav
-  showGameForm = () => this.setState({ showGameForm: true, selectedGame: {} });
+  showGameForm = () =>
+    this.setState({
+      showGameForm: true,
+      selectedGame: {}
+    });
 
   //Logic to hide game when pushing cancel button
-  hideGameForm = () => this.setState({ showGameForm: false, selectedGame: {} });
+  hideGameForm = () =>
+    this.setState({
+      showGameForm: false,
+      selectedGame: {}
+    });
 
   //Logic for selected game to edit
   selectGameForEditing = game =>
-    this.setState({ selectedGame: game, showGameForm: true });
+    this.setState({
+      selectedGame: game,
+      showGameForm: true
+    });
 
   // Logic for if game object is a new game or request for update
   // Note - we have game._id: null as value as such if value is null, then it's a new game
@@ -200,13 +212,29 @@ class App extends React.Component {
   };
 
   selectedPublisherForEditing = publisher =>
-    this.setState({ selectedPublisher: publisher });
+    this.setState({
+      selectedPublisher: publisher,
+      showForm: true
+    });
 
   //Logic to show & hide Publisher list
   showPublisher = e =>
-    this.setState({ showPublisher: !this.state.showPublisher });
+    this.setState({
+      showPublisher: !this.state.showPublisher
+    });
 
-  hidePublisher = e => this.setState({ showPublisher: false });
+  hidePublisher = e =>
+    this.setState({
+      showPublisher: false
+    });
+
+  showForm = e => {
+    e.preventDefault();
+    this.setState({
+      showForm: true
+    });
+  };
+
 
   render() {
     const numberOfColumns =
@@ -217,7 +245,6 @@ class App extends React.Component {
           showGameForm={this.showGameForm}
           showPublisher={this.showPublisher}
         />
-
         <div className="ui stackable grid">
           {this.state.showGameForm && (
             <div className="six wide column">
@@ -229,7 +256,6 @@ class App extends React.Component {
               />
             </div>
           )}
-
           <div className={`${numberOfColumns} wide column`}>
             <GamesList
               games={this.state.games}
@@ -239,7 +265,6 @@ class App extends React.Component {
               deleteGame={this.deleteGame}
             />
           </div>
-
           {this.state.showPublisher && (
             <div className="six wide column">
               <GamePublisher
@@ -250,13 +275,15 @@ class App extends React.Component {
                 editPublisher={this.selectedPublisherForEditing}
                 selectedPublisher={this.state.selectedPublisher}
                 submit={this.savePublisher}
+                showForm={this.showForm}
+                showFormState={this.state.showForm}
               />
             </div>
           )}
         </div>
         {/* <LoginForm />
-        <br />
-        <SignUpForm /> */}
+                        <br />
+                        <SignUpForm /> */}
       </div>
     );
   }

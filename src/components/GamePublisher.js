@@ -1,68 +1,37 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import PublisherList from "./PublisherList";
-import FormInlineMessage from "./FormInlineMessage";
-
-const initialData = {
-  _id: null,
-  name: "",
-  website: ""
-};
+import GamePublisherForm from "./GamePublisherForm";
 
 class GamePublisher extends Component {
   state = {
-    data: initialData,
-    errors: {},
     showForm: false
   };
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
-    if (nextProps.selectedPublisher._id) {
-      this.setState({ data: nextProps.selectedPublisher });
-    }
-
-    if (!nextProps.selectedPublisher._id) {
-      this.setState({ data: initialData });
+    if (nextProps.showFormState) {
+      this.setState({ showForm: nextProps.showFormState });
     }
   }
 
-  validate(data) {
-    const errors = {};
-
-    if (!data.name) errors.name = "This field must not be blank";
-    if (!data.website) errors.website = "This field must not be blank";
-
-    return errors;
-  }
-
-  handleSubmit = e => {
+  hideForm = e => {
     e.preventDefault();
-
-    const errors = this.validate(this.state.data);
-    this.setState({ errors });
-
-    if (Object.keys(errors).length === 0) {
-      this.props.submit(this.state.data);
-    }
-  };
-
-  handleStringChange = e => {
-    this.setState({
-      data: {
-        ...this.state.data,
-        [e.target.name]: e.target.value
-      }
-    });
+    console.log("hello world");
+    this.setState({ showForm: false });
   };
 
   render() {
-    const { data, errors } = this.state;
-    const { deletePublisher, editPublisher } = this.props;
+    const { deletePublisher, editPublisher, hideForm, showForm } = this.props;
     return (
       <div className="ui container">
-        <i className="ui icon close" onClick={this.props.hidePublisher} />{" "}
-        Publishers
+        <h5>
+          <i className="ui icon close" onClick={this.props.hidePublisher} />Publishers
+        </h5>
+        <div className="ui fluid buttons">
+          <a className="ui primary button" onClick={showForm}>
+            Add Publisher
+          </a>
+        </div>
         <table className="ui single line table">
           <thead>
             <tr>
@@ -76,48 +45,17 @@ class GamePublisher extends Component {
               publisher={publisher}
               deletePublisher={deletePublisher}
               editPublisher={editPublisher}
+              showForm={showForm}
             />
           ))}
         </table>
-        <form onSubmit={this.handleSubmit} className="ui form">
-          <div className="ui container">
-            <div className={errors.name ? "field error" : "field"}>
-              <label htmlFor="name">Publisher Name</label>
-              <input
-                type="text"
-                name="name"
-                id="name"
-                placeholder="Publisher Name"
-                value={data.name}
-                onChange={this.handleStringChange}
-              />
-              <FormInlineMessage content={errors.name} type="error" />
-            </div>
-
-            <div className={errors.website ? "field error" : "field"}>
-              <label htmlFor="website">Website</label>
-              <input
-                type="text"
-                name="website"
-                id="website"
-                placeholder="Website URL"
-                value={data.website}
-                onChange={this.handleStringChange}
-              />
-              <FormInlineMessage content={errors.website} type="error" />
-            </div>
-          </div>
-          <br />
-          <div className="ui fluid buttons">
-            <button type="submit" className="ui primary button">
-              Add
-            </button>
-            <div className="or" />
-            <a className="ui button" onClick={this.props.hidePublisher}>
-              Cancel
-            </a>
-          </div>
-        </form>
+        {this.state.showForm && (
+          <GamePublisherForm
+            submit={this.props.submit}
+            selectedPublisher={this.props.selectedPublisher}
+            hideForm={this.hideForm}
+          />
+        )}
       </div>
     );
   }
@@ -125,7 +63,9 @@ class GamePublisher extends Component {
 
 GamePublisher.propTypes = {
   editPublisher: PropTypes.func,
-  deletePublisher: PropTypes.func
+  deletePublisher: PropTypes.func,
+  submit: PropTypes.func,
+  selectedPublisher: PropTypes.object
 };
 
 GamePublisher.defaultProps = {

@@ -1,14 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const PublisherList = ({ publisher, deletePublisher, editPublisher }) => (
+const PublisherList = ({
+  publisher,
+  deletePublisher,
+  editPublisher,
+  showForm
+}) => (
   <tbody>
     <tr>
       <td>{publisher.name}</td>
       <td>
         <i
           className="ui green icon edit"
-          onClick={() => editPublisher(publisher)}
+          onClick={e => {
+            editPublisher(publisher);
+          }}
         />
         <i
           className="ui red icon trash"
