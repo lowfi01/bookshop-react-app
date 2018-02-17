@@ -231,7 +231,8 @@ class App extends React.Component {
   showForm = e => {
     e.preventDefault();
     this.setState({
-      showForm: true
+      showForm: true,
+      selectedPublisher: {}
     });
   };
 

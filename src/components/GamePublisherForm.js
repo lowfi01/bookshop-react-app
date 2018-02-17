@@ -16,13 +16,19 @@ class componentName extends Component {
     showForm: false
   };
 
+  componentDidMount() {
+    if (this.props.selectedPublisher._id) {
+      this.setState({ data: this.props.selectedPublisher });
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
+    // console.log(nextProps);
     if (nextProps.selectedPublisher._id) {
       this.setState({ data: nextProps.selectedPublisher });
     }
 
-    if (!nextProps.selectedPublisher._id) {
+    if (!nextProps.selectedPublisher) {
       this.setState({ data: initialData });
     }
   }

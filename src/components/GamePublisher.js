@@ -51,7 +51,9 @@ class GamePublisher extends Component {
         {this.state.showForm && (
           <GamePublisherForm
             submit={this.props.submit}
-            selectedPublisher={this.props.selectedPublisher}
+            selectedPublisher={
+              this.state.hideForm ? null : this.props.selectedPublisher
+            }
             hideForm={this.hideForm}
           />
         )}
@@ -64,7 +66,8 @@ GamePublisher.propTypes = {
   editPublisher: PropTypes.func,
   deletePublisher: PropTypes.func,
   submit: PropTypes.func,
-  selectedPublisher: PropTypes.object
+  selectedPublisher: PropTypes.object,
+  hideForm: PropTypes.func.isRequired
 };
 
 GamePublisher.defaultProps = {
