@@ -1,5 +1,6 @@
 import React from "react";
 import _orderBy from "lodash/orderBy";
+import api from "../api";
 
 import GamesList from "./GamesList";
 import GameForm from "./GameForm";
@@ -78,10 +79,13 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    this.setState({
-      games: this.sortGames(games),
-      publishers: publishers
-    });
+    api.games
+      .fetchAll()
+      .then(games => this.setState({ games: this.sortGames(games) }));
+    // this.setState({
+    //   games: this.sortGames(games),
+    //   publishers: publishers
+    // });
   }
 
   sortGames(games) {
@@ -235,7 +239,6 @@ class App extends React.Component {
       selectedPublisher: {}
     });
   };
-
 
   render() {
     const numberOfColumns =
