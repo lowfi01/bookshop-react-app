@@ -11,12 +11,12 @@ import GamePublisher from "./GamePublisher";
 
 const publishers = [
   {
-    _id: 1,
+    _id: "1",
     name: "Days of Wonder",
     website: ""
   },
   {
-    _id: 2,
+    _id: "2",
     name: "Rio Grande Games",
     website: ""
   }
@@ -166,17 +166,13 @@ class App extends React.Component {
   };
 
   //Logic for adding a new game on create game button
-  addGame = game =>
-    this.setState({
-      games: this.sortGames([
-        ...this.state.games,
-        {
-          ...game,
-          _id: this.gameId(this.state.games.length + 1)
-        }
-      ]),
-      showGameForm: false
-    });
+  addGame = gameData =>
+    api.games.create(gameData).then(game =>
+      this.setState({
+        games: this.sortGames([...this.state.games, game]),
+        showGameForm: false
+      })
+    );
 
   gameId = id => this.state.games.map(game => (id === game._id ? id + 1 : id));
 
@@ -253,7 +249,7 @@ class App extends React.Component {
           {this.state.showGameForm && (
             <div className="six wide column">
               <GameForm
-                publishers={this.state.publishers}
+                publishers={publishers}
                 cancel={this.hideGameForm}
                 submit={this.saveGame}
                 game={this.state.selectedGame}

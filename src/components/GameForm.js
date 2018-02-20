@@ -4,7 +4,6 @@ import ReactImageFallBack from "react-image-fallback";
 import FormInlineMessage from "./FormInlineMessage";
 
 const initialData = {
-  _id: null,
   name: "",
   description: "",
   price: 0,
@@ -19,7 +18,8 @@ const initialData = {
 class GameForm extends Component {
   state = {
     data: initialData,
-    errors: {}
+    errors: {},
+    loading: false
   };
 
   componentDidMount() {
@@ -56,10 +56,19 @@ class GameForm extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const errors = this.validate(this.state.data);
+
     this.setState({ errors });
 
     if (Object.keys(errors).length === 0) {
-      this.props.submit(this.state.data);
+      this.setState({ loading: true });
+      //Note - you can remove timeout here, but it's cool to see the loading feature
+      setTimeout(() => {
+        this.props
+          .submit(this.state.data)
+          .catch(err =>
+            this.setState({ errors: err.response.data.errors, loading: false })
+          );
+      }, 1500);
     }
   };
 
@@ -81,9 +90,10 @@ class GameForm extends Component {
     });
 
   render() {
-    const { data, errors } = this.state;
+    const { data, errors, loading } = this.state;
+    const formClassNames = loading ? "ui form loading" : "ui form";
     return (
-      <form className="ui form" onSubmit={this.handleSubmit}>
+      <form className={formClassNames} onSubmit={this.handleSubmit}>
         <div className="ui grid">
           <div className="twelve wide column">
             <div className={errors.name ? "field error" : "field"}>
@@ -217,14 +227,14 @@ class GameForm extends Component {
 GameForm.propTypes = {
   publishers: PropTypes.arrayOf(
     PropTypes.shape({
-      _id: PropTypes.number.isRequired,
+      _id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired
     })
   ).isRequired,
   cancel: PropTypes.func.isRequired,
   submit: PropTypes.func.isRequired,
   game: PropTypes.shape({
-    _id: PropTypes.number,
+    _id: PropTypes.string,
     name: PropTypes.string,
     price: PropTypes.number,
     thumbnail: PropTypes.string,
