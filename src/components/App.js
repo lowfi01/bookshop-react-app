@@ -76,13 +76,17 @@ class App extends React.Component {
     selectedGame: {},
     publishers: [],
     selectedPublisher: {},
-    showForm: false
+    showForm: false,
+    loading: true
   };
 
   componentDidMount() {
-    api.games
-      .fetchAll()
-      .then(games => this.setState({ games: this.sortGames(games) }));
+    setTimeout(() => {
+      api.games
+        .fetchAll()
+        .then(games => this.setState({ games: this.sortGames(games), loading: false }));
+    }, 3000);
+
     // this.setState({
     //   games: this.sortGames(games),
     //   publishers: publishers
@@ -153,11 +157,12 @@ class App extends React.Component {
     );
 
   // Logic for Delete Game
-  deleteGame = game => {
-    this.setState({
-      games: this.state.games.filter(oldGames => game._id !== oldGames._id)
-    });
-  };
+  deleteGame = game =>
+    api.games.delete(game).then(() =>
+      this.setState({
+        games: this.state.games.filter(item => item._id !== game._id)
+      })
+    );
 
   //Logic for adding a new game on create game button
   addGame = gameData =>
@@ -251,13 +256,23 @@ class App extends React.Component {
             </div>
           )}
           <div className={`${numberOfColumns} wide column`}>
-            <GamesList
-              games={this.state.games}
-              toggleFeatured={this.toggleFeatured}
-              toggleDescription={this.toggleDescription}
-              editGame={this.selectGameForEditing}
-              deleteGame={this.deleteGame}
-            />
+            {this.state.loading ? (
+              <div className="ui icon message">
+                <i className="notched circle loading icon"></i>
+                <div className="content">
+                  <div className="header">Wait a second!</div>
+                  <p>Loading games collection.....</p>
+                </div>
+              </div>
+            ) : (
+              <GamesList
+                games={this.state.games}
+                toggleFeatured={this.toggleFeatured}
+                toggleDescription={this.toggleDescription}
+                editGame={this.selectGameForEditing}
+                deleteGame={this.deleteGame}
+              />
+            )}
           </div>
           {this.state.showPublisher && (
             <div className="six wide column">
