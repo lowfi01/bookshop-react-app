@@ -1,5 +1,6 @@
 import React from "react";
 import _orderBy from "lodash/orderBy";
+import _find from "lodash/find";
 import api from "../api";
 
 import GamesList from "./GamesList";
@@ -107,22 +108,13 @@ class App extends React.Component {
     });
 
   // Logic for toggling star icon, pass me down function
-  toggleFeatured = gameId =>
-    this.setState({
-      // we are using implicit return
-      // just set state of game & then use ternary operator.
-      games: this.sortGames(
-        this.state.games.map(
-          game =>
-            game._id === gameId
-              ? {
-                  ...game,
-                  featured: !game.featured
-                }
-              : game
-        )
-      )
+  toggleFeatured = gameId => {
+    const game = _find(this.state.games, { _id: gameId });
+    return this.updateGame({
+      ...game,
+      featured: !game.featured
     });
+  };
 
   //Logic to show & hide game form on add game toggle from Nav
   showGameForm = () =>
@@ -150,13 +142,15 @@ class App extends React.Component {
   saveGame = game => (game._id ? this.updateGame(game) : this.addGame(game));
 
   // Logic for Updating game
-  updateGame = game =>
-    this.setState({
-      games: this.sortGames(
-        this.state.games.map(item => (item._id === game._id ? game : item))
-      ),
-      showGameForm: false
-    });
+  updateGame = gameData =>
+    api.games.update(gameData).then(game =>
+      this.setState({
+        games: this.sortGames(
+          this.state.games.map(item => (item._id === game._id ? game : item))
+        ),
+        showGameForm: false
+      })
+    );
 
   // Logic for Delete Game
   deleteGame = game => {
