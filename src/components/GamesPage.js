@@ -5,7 +5,6 @@ import api from "../api";
 
 import GamesList from "./GamesList";
 import GameForm from "./GameForm";
-import TopNavigation from "./TopNavigation";
 import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm";
 import GamePublisher from "./GamePublisher";
@@ -81,13 +80,11 @@ class GamesPage extends React.Component {
   };
 
   componentDidMount() {
-    setTimeout(() => {
-      api.games
-        .fetchAll()
-        .then(games =>
-          this.setState({ games: this.sortGames(games), loading: false })
-        );
-    }, 3000);
+    api.games
+      .fetchAll()
+      .then(games =>
+        this.setState({ games: this.sortGames(games), loading: false })
+      );
 
     // this.setState({
     //   games: this.sortGames(games),
@@ -242,10 +239,6 @@ class GamesPage extends React.Component {
       this.state.showGameForm || this.state.showPublisher ? "ten" : "sixteen";
     return (
       <div className="ui container">
-        <TopNavigation
-          showGameForm={this.showGameForm}
-          showPublisher={this.showPublisher}
-        />
         <div className="ui stackable grid">
           {this.state.showGameForm && (
             <div className="six wide column">

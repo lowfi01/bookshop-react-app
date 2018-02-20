@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom"; 
 
 import GamesPrice from "./GamesPrice";
 import Featured from "./Featured";
@@ -42,7 +43,7 @@ class GameCard extends React.Component {
         )}
 
         <div className="content">
-          <a className="header">{game.name}</a>
+          <Link to={`/game/${game._id}`} className="header">{game.name}</Link>
           <div className="meta">
             <i className="icon users" />
             {game.players}
