@@ -1,23 +1,18 @@
 import React from "react";
-import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const TopNavigation = ({ showGameForm, showPublisher }) => (
   <div className="ui secondary pointing menu">
-    <a href="/" className="item">
+    <Link to="/" className="item">
       BGShop
-    </a>
-    <a onClick={showGameForm} className="item">
+    </Link>
+    <Link to="/games " className="item">
+      Games
+    </Link>
+    <Link to="/games/new " className="item">
       <i className="icon plus" /> Add New Game
-    </a>
-    <a onClick={showPublisher} className="item">
-      Manage Publishers
-    </a>
+    </Link>
   </div>
 );
-
-TopNavigation.propTypes = {
-  showGameForm: PropTypes.func.isRequired,
-  showPublisher: PropTypes.func.isRequired
-};
 
 export default TopNavigation;
