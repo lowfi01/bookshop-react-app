@@ -9,6 +9,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-image-fallback": "^7.0.1",
+    "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.0",
     "semantic-ui-css": "^2.2.14"
   },
